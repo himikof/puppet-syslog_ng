@@ -50,8 +50,13 @@ class syslog_ng (
       require => Package['syslog-ng'],
     }
 
+    $svc_enable = $ensure ? {
+      'running' => true,
+      'stopped' => false,
+    }
     service { "syslog-ng":
       ensure     => $ensure,
+      enable     => $svc_enable,
       name       => $syslog_ng::params::svc_name,
       hasstatus  => true,
       hasrestart => true,
